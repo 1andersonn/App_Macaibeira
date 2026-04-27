@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escola Bíblica Dominical</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:#2a7ede;
+    --blue-light:#eaf3ff;
+    --blue-mid:#3d8fe8;
+    --dark3:#1a5fc0;
+    --text:#0d1f36;
+    --green:#2ECC71;
+    --red:#E74C3C;
+    --orange:#E67E22;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Lato',sans-serif;background:var(--blue-light);color:var(--text);min-height:100vh;}
+
+  /* HEADER */
+  header{background:var(--blue);color:white;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(42,126,222,0.35);}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;}
+  .logo h1{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;line-height:1.1;text-shadow:0 1px 4px rgba(0,0,0,0.18);}
+  .logo small{font-size:11px;color:rgba(255,255,255,0.85);letter-spacing:1px;text-transform:uppercase;display:block;margin-top:2px;}
+  nav{background:rgba(0,0,0,0.12);display:flex;overflow-x:auto;border-top:1px solid rgba(255,255,255,0.2);}
+  nav button{background:none;border:none;color:rgba(255,255,255,0.75);padding:12px 20px;font-family:'Lato',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all 0.2s;}
+  nav button:hover{color:#fff;background:rgba(255,255,255,0.1);}
+  nav button.active{color:#fff;border-bottom-color:#fff;background:rgba(255,255,255,0.15);}
+
+  /* LAYOUT */
+  main{max-width:960px;margin:0 auto;padding:24px 16px;}
+  .section-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dark3);margin-bottom:20px;border-left:4px solid var(--blue);padding-left:12px;}
+  .card{background:white;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 12px rgba(42,126,222,0.1);border:1px solid rgba(42,126,222,0.15);}
+  .card h3{font-family:'Playfair Display',serif;font-size:16px;color:var(--dark3);margin-bottom:14px;}
+  .form-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+  .form-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px;}
+  label{font-size:12px;font-weight:700;color:#4a7a9b;text-transform:uppercase;letter-spacing:0.5px;}
+  input,select{padding:10px 12px;border:1.5px solid #b8d9f5;border-radius:8px;font-family:'Lato',sans-serif;font-size:14px;color:var(--text);background:var(--blue-light);transition:border 0.2s;outline:none;}
+  input:focus,select:focus{border-color:var(--blue);background:white;}
+
+  /* BOTÕES */
+  .btn{padding:10px 20px;border:none;border-radius:8px;font-family:'Lato',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;}
+  .btn-primary{background:var(--dark3);color:white;}
+  .btn-primary:hover{background:#1248a0;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+  .btn-blue{background:var(--blue);color:white;}
+  .btn-blue:hover{background:var(--blue-mid);color:white;}
+  .btn-danger{background:var(--red);color:white;}
+  .btn-danger:hover{background:#c0392b;}
+  .btn-warning{background:var(--orange);color:white;}
+  .btn-warning:hover{background:#ca6f1e;}
+  .btn-sm{padding:6px 12px;font-size:12px;}
+
+  /* BADGES */
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.3px;}
+  .badge-green{background:#d5f5e3;color:#1a7a47;}
+  .badge-red{background:#fde8e6;color:#a93226;}
+  .badge-blue{background:#dceefb;color:#1a5276;}
+  .badge-sky{background:var(--blue-light);color:var(--dark3);}
+  .badge-purple{background:#ede0f7;color:#5b2c8d;}
+
+  /* SALAS */
+  .sala-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--blue-light);border-radius:8px;margin-bottom:8px;border:1px solid rgba(42,126,222,0.2);}
+  .sala-nome{font-weight:700;font-size:15px;color:var(--dark3);}
+  .sala-prof{font-size:12px;color:#6a9ab8;margin-top:2px;}
+  .sala-btns{display:flex;gap:6px;}
+  .aluno-item{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:var(--blue-light);border-radius:8px;margin-bottom:6px;}
+  .aluno-nome{font-size:14px;font-weight:600;color:var(--dark3);}
+
+  /* FREQUÊNCIA */
+  .aula-sala-card{background:white;border-radius:12px;padding:18px;margin-bottom:14px;border:2px solid rgba(42,126,222,0.2);box-shadow:0 2px 8px rgba(42,126,222,0.08);}
+  .aula-sala-nome{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--dark3);}
+  .freq-aluno-list{margin-bottom:14px;}
+  .freq-aluno-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;margin-bottom:6px;background:var(--blue-light);border:1.5px solid #b8d9f5;transition:border-color 0.15s,background 0.15s;}
+  .freq-aluno-row.presente{background:#d5f5e3;border-color:#2ECC71;}
+  .freq-aluno-row.ausente{background:#fde8e6;border-color:#E74C3C;}
+  .freq-aluno-row.professor-row{border-style:dashed;border-color:var(--blue);}
+  .freq-aluno-row.professor-row.presente{border-style:dashed;border-color:#2ECC71;}
+  .freq-aluno-row.professor-row.ausente{border-style:dashed;border-color:#E74C3C;}
+  .freq-aluno-nome{font-size:14px;font-weight:600;color:var(--dark3);}
+  .prof-tag{font-size:10px;font-weight:700;background:var(--blue);color:white;padding:2px 7px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+  .freq-toggle{display:flex;gap:6px;}
+  .freq-btn{padding:5px 12px;border-radius:6px;border:2px solid transparent;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;}
+  .freq-btn-p{background:#d5f5e3;color:#1a7a47;border-color:#2ECC71;}
+  .freq-btn-p.active{background:#1a7a47;color:white;border-color:#1a7a47;}
+  .freq-btn-a{background:#fde8e6;color:#a93226;border-color:#E74C3C;}
+  .freq-btn-a.active{background:#a93226;color:white;border-color:#a93226;}
+
+  /* CONTADORES */
+  .freq-summary{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start;padding-top:12px;border-top:1px solid #dceefb;}
+  .counter-box{display:flex;flex-direction:column;align-items:center;background:var(--blue-light);border-radius:10px;padding:10px 14px;border:1px solid #b8d9f5;min-width:90px;}
+  .counter-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#6a9ab8;margin-bottom:6px;}
+  .counter-ctrl{display:flex;align-items:center;gap:8px;}
+  .counter-btn{width:28px;height:28px;border-radius:6px;border:none;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+  .counter-btn-minus{background:#fde8e6;color:var(--red);}
+  .counter-btn-plus{background:#d5f5e3;color:#1a7a47;}
+  .counter-btn:hover{transform:scale(1.1);}
+  .counter-val{font-size:20px;font-weight:900;min-width:30px;text-align:center;color:var(--dark3);}
+  .counter-total{font-size:11px;color:#a0c0d8;margin-top:4px;text-align:center;}
+  .stat-display{display:flex;flex-direction:column;align-items:center;background:var(--blue-light);border-radius:10px;padding:10px 14px;border:1px solid #b8d9f5;min-width:80px;}
+  .stat-display-val{font-size:24px;font-weight:900;color:var(--dark3);}
+
+  /* BARRA TRIMESTRE */
+  .trimestre-bar{display:flex;align-items:center;gap:12px;margin-bottom:20px;background:white;padding:14px 18px;border-radius:12px;box-shadow:0 2px 10px rgba(42,126,222,0.1);flex-wrap:wrap;border:1px solid rgba(42,126,222,0.15);}
+  .trimestre-bar label{font-weight:700;font-size:13px;color:var(--dark3);}
+
+  /* LIÇÕES */
+  .licao-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:8px;margin-bottom:16px;}
+  .licao-btn{padding:10px 4px;border-radius:8px;border:2px solid #b8d9f5;background:var(--blue-light);font-weight:700;font-size:13px;cursor:pointer;transition:all 0.15s;text-align:center;color:#4a7a9b;}
+  .licao-btn:hover{border-color:var(--blue);color:var(--dark3);}
+  .licao-btn.active{background:var(--dark3);color:white;border-color:var(--dark3);}
+  .licao-btn.registrada{background:#dceefb;color:var(--dark3);border-color:var(--blue);}
+  .licao-btn.registrada.active{background:var(--dark3);color:white;border-color:var(--dark3);}
+
+  /* EMPTY */
+  .empty{text-align:center;padding:32px;color:#a0c0d8;}
+  .empty-icon{font-size:40px;margin-bottom:8px;}
+  .empty p{font-size:14px;}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--dark3);color:white;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.3);transform:translateY(80px);opacity:0;transition:all 0.3s;}
+  .toast.show{transform:translateY(0);opacity:1;}
+  .toast.success{background:#1a7a47;}
+  .toast.error{background:#a93226;}
+
+  /* MODAIS */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:500;backdrop-filter:blur(3px);}
+  .modal-box{background:white;border-radius:16px;padding:28px 24px;width:90%;max-width:380px;box-shadow:0 12px 40px rgba(0,0,0,0.2);animation:popIn 0.2s ease;}
+  @keyframes popIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--dark3);margin-bottom:18px;}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
+
+  /* RANKING */
+  .rank-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;margin-bottom:6px;background:var(--blue-light);border:1.5px solid #b8d9f5;}
+  .rank-pos{font-size:18px;font-weight:900;min-width:32px;text-align:center;color:var(--dark3);}
+  .rank-pos.gold{color:#c8a200;}
+  .rank-pos.silver{color:#7a8fa8;}
+  .rank-pos.bronze{color:#a0522d;}
+  .rank-bar-wrap{flex:1;background:#dceefb;border-radius:20px;height:10px;overflow:hidden;}
+  .rank-bar{height:10px;border-radius:20px;background:linear-gradient(90deg,var(--blue-mid),var(--blue));}
+  .rank-nome{font-size:14px;font-weight:700;color:var(--dark3);}
+  .rank-sala{font-size:11px;color:#6a9ab8;}
+
+  /* TABELA */
+  .table-wrap{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{background:var(--dark3);color:white;padding:10px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;}
+  td{padding:10px 12px;border-bottom:1px solid #dceefb;}
+  tr:hover td{background:var(--blue-light);}
+
+  .divider{border:none;border-top:1.5px dashed #b8d9f5;margin:8px 0 12px;}
+  .hidden{display:none!important;}
+  .page{display:none;}
+  .page.active{display:block;}
+
+  @media(max-width:600px){
+    .header-inner{flex-direction:column;gap:8px;text-align:center;}
+    .rank-bar-wrap{display:none;}
+    .freq-toggle{flex-direction:column;gap:4px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div>
+        <h1>Escola Bíblica Dominical</h1>
+        <small>Congregação Macaibeira</small>
+      </div>
+    </div>
+  </div>
+  <nav>
+    <button class="active" onclick="showPage('salas')">🏫 Salas</button>
+    <button onclick="showPage('alunos')">👥 Alunos</button>
+    <button onclick="showPage('aulas')">📖 Registrar Aula</button>
+    <button onclick="showPage('relatorio')">📊 Relatório</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- SALAS -->
+<div id="page-salas" class="page active">
+  <div class="section-title">Gerenciar Salas</div>
+  <div class="card">
+    <h3>➕ Nova Sala</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome da Sala</label>
+        <input id="sala-nome" placeholder="Ex: Adultos, Jovens, Crianças...">
+      </div>
+      <div class="form-group">
+        <label>Professor(a)</label>
+        <input id="sala-prof" placeholder="Nome do professor">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="addSala()">Cadastrar Sala</button>
+  </div>
+  <div id="lista-salas"></div>
+</div>
+
+<!-- ALUNOS -->
+<div id="page-alunos" class="page">
+  <div class="section-title">Gerenciar Alunos</div>
+  <div class="trimestre-bar">
+    <label>Trimestre:</label>
+    <select id="aluno-trim" onchange="renderAlunos()"></select>
+    <button class="btn btn-blue btn-sm" onclick="abrirModalTrim()">+ Novo Trimestre</button>
+  </div>
+  <div class="card">
+    <h3>➕ Matricular Aluno</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome do Aluno</label>
+        <input id="aluno-nome" placeholder="Nome completo">
+      </div>
+      <div class="form-group" style="max-width:200px">
+        <label>Sala</label>
+        <select id="aluno-sala"></select>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="addAluno()">Matricular</button>
+  </div>
+  <div id="lista-alunos"></div>
+</div>
+
+<!-- REGISTRAR AULA -->
+<div id="page-aulas" class="page">
+  <div class="section-title">Registrar Frequência</div>
+  <div class="trimestre-bar" style="gap:16px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <label>Trimestre:</label>
+      <select id="aula-trim" onchange="licaoAtiva=null;renderLicoes()"></select>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <label>📅 Data:</label>
+      <input type="date" id="aula-data" style="max-width:160px">
+    </div>
+  </div>
+  <div class="card">
+    <h3>Selecione a Lição</h3>
+    <div class="licao-grid" id="licao-grid"></div>
+  </div>
+  <div id="aula-form-area"></div>
+</div>
+
+<!-- RELATÓRIO -->
+<div id="page-relatorio" class="page">
+  <div class="section-title">Relatório</div>
+  <div class="trimestre-bar">
+    <label>Trimestre:</label>
+    <select id="hist-trim" onchange="renderRelatorio()"></select>
+    <label style="margin-left:16px">Sala:</label>
+    <select id="hist-sala" onchange="renderRelatorio()"></select>
+    <label style="margin-left:16px">Lição:</label>
+    <select id="hist-licao" onchange="renderRelatorio()">
+      <option value="">Todas</option>
+    </select>
+  </div>
+  <div id="hist-content"></div>
+</div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<!-- MODAL: NOVO TRIMESTRE -->
+<div class="modal-overlay hidden" id="modal-trim">
+  <div class="modal-box">
+    <div class="modal-title">✝️ Novo Trimestre</div>
+    <div class="form-group" style="margin-bottom:4px">
+      <label>Ano</label>
+      <input type="number" id="modal-ano" placeholder="Ex: 2026" min="2020" max="2099">
+    </div>
+    <p style="font-size:12px;color:#999;margin-top:8px">Os 4 trimestres do ano serão criados automaticamente.</p>
+    <div class="modal-actions">
+      <button class="btn" style="background:#eee;color:#555" onclick="fecharModais()">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarTrimestre()">Criar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: EDITAR SALA -->
+<div class="modal-overlay hidden" id="modal-sala">
+  <div class="modal-box">
+    <div class="modal-title">✏️ Editar Sala</div>
+    <input type="hidden" id="edit-sala-id">
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Nome da Sala</label>
+      <input type="text" id="edit-sala-nome">
+    </div>
+    <div class="form-group">
+      <label>Professor(a)</label>
+      <input type="text" id="edit-sala-prof">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" style="background:#eee;color:#555" onclick="fecharModais()">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarEditSala()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CONFIRMAR EXCLUSÃO -->
+<div class="modal-overlay hidden" id="modal-confirm">
+  <div class="modal-box">
+    <div class="modal-title">⚠️ Confirmar Exclusão</div>
+    <p id="modal-confirm-msg" style="font-size:14px;color:#555;margin-bottom:8px;line-height:1.5;"></p>
+    <div class="modal-actions">
+      <button class="btn" style="background:#eee;color:#555" onclick="fecharModais()">Cancelar</button>
+      <button class="btn btn-danger" id="modal-confirm-btn">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+var state = { trimestres:[], salas:[], alunos:[], registros:[] };
+var licaoAtiva = null;
+var freqTemp = {};
+
+function save(){ localStorage.setItem('ebd_data', JSON.stringify(state)); }
+function load(){
+  var d = localStorage.getItem('ebd_data');
+  if(d) state = JSON.parse(d);
+  ['trimestres','salas','alunos','registros'].forEach(function(k){ if(!state[k]) state[k]=[]; });
+}
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).substr(2,5); }
+
+function toast(msg, type){
+  type = type || '';
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(function(){ t.className = 'toast'; }, 2800);
+}
+
+function fecharModais(){
+  document.querySelectorAll('.modal-overlay').forEach(function(m){ m.classList.add('hidden'); });
+}
+document.querySelectorAll('.modal-overlay').forEach(function(m){
+  m.addEventListener('click', function(e){ if(e.target === m) fecharModais(); });
+});
+
+// ===== NAV =====
+function showPage(p){
+  document.querySelectorAll('.page').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('nav button').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById('page-'+p).classList.add('active');
+  var pages = ['salas','alunos','aulas','relatorio'];
+  var idx = pages.indexOf(p);
+  if(idx >= 0) document.querySelectorAll('nav button')[idx].classList.add('active');
+  if(p === 'salas') renderSalas();
+  if(p === 'alunos'){ populateTrimSelects(); renderAlunos(); }
+  if(p === 'aulas'){ populateTrimSelects(); licaoAtiva = null; renderLicoes(); }
+  if(p === 'relatorio'){ populateTrimSelects(); renderRelatorio(); }
+}
+
+// ===== TRIM SELECTS =====
+function trimNome(t){ return t.ano + ' - ' + t.numero + 'º Trim'; }
+function populateTrimSelects(){
+  ['aluno-trim','aula-trim','hist-trim'].forEach(function(sid){
+    var el = document.getElementById(sid);
+    if(!el) return;
+    var val = el.value;
+    el.innerHTML = state.trimestres.length === 0
+      ? '<option value="">— Nenhum trimestre —</option>'
+      : state.trimestres.map(function(t){ return '<option value="'+t.id+'">'+trimNome(t)+'</option>'; }).join('');
+    if(val && state.trimestres.find(function(t){ return t.id === val; })) el.value = val;
+  });
+  var histSala = document.getElementById('hist-sala');
+  if(histSala){
+    histSala.innerHTML = '<option value="">Todas as salas</option>' +
+      state.salas.map(function(s){ return '<option value="'+s.id+'">'+s.nome+'</option>'; }).join('');
+  }
+  var histLicao = document.getElementById('hist-licao');
+  if(histLicao){
+    histLicao.innerHTML = '<option value="">Todas</option>';
+    for(var i = 1; i <= 13; i++) histLicao.innerHTML += '<option value="'+i+'">L'+i+'</option>';
+  }
+}
+
+// ===== MODAL TRIMESTRE =====
+function abrirModalTrim(){
+  document.getElementById('modal-ano').value = new Date().getFullYear();
+  document.getElementById('modal-trim').classList.remove('hidden');
+  setTimeout(function(){ document.getElementById('modal-ano').focus(); }, 100);
+}
+function confirmarTrimestre(){
+  var ano = parseInt(document.getElementById('modal-ano').value);
+  if(!ano || ano < 2020 || ano > 2099){ toast('Informe um ano válido', 'error'); return; }
+  if(state.trimestres.some(function(t){ return t.ano === ano; })){ toast('Trimestres de '+ano+' já cadastrados!', 'error'); return; }
+  for(var num = 1; num <= 4; num++) state.trimestres.push({id:uid(), ano:ano, numero:num});
+  save(); fecharModais(); populateTrimSelects();
+  var primeiro = state.trimestres.find(function(t){ return t.ano === ano && t.numero === 1; });
+  if(primeiro){
+    ['aluno-trim','aula-trim','hist-trim'].forEach(function(sid){
+      var el = document.getElementById(sid);
+      if(el) el.value = primeiro.id;
+    });
+  }
+  toast('4 trimestres de '+ano+' criados!', 'success');
+}
+
+// ===== SALAS =====
+function addSala(){
+  var nome = document.getElementById('sala-nome').value.trim();
+  var prof = document.getElementById('sala-prof').value.trim();
+  if(!nome){ toast('Informe o nome da sala', 'error'); return; }
+  if(state.salas.length >= 5){ toast('Máximo de 5 salas atingido', 'error'); return; }
+  state.salas.push({id:uid(), nome:nome, prof:prof});
+  save();
+  document.getElementById('sala-nome').value = '';
+  document.getElementById('sala-prof').value = '';
+  renderSalas(); populateTrimSelects();
+  toast('Sala cadastrada!', 'success');
+}
+function removeSala(id){
+  var s = state.salas.find(function(s){ return s.id === id; });
+  abrirModalConfirm('Remover a sala "'+s.nome+'"? Todos os alunos e registros serão apagados.', function(){
+    state.salas = state.salas.filter(function(s){ return s.id !== id; });
+    state.alunos = state.alunos.filter(function(a){ return a.salaId !== id; });
+    state.registros = state.registros.filter(function(r){ return r.salaId !== id; });
+    save(); renderSalas(); populateTrimSelects();
+    toast('Sala removida.', 'success');
+  });
+}
+function abrirModalEditSala(id){
+  var s = state.salas.find(function(s){ return s.id === id; });
+  if(!s) return;
+  document.getElementById('edit-sala-id').value = id;
+  document.getElementById('edit-sala-nome').value = s.nome;
+  document.getElementById('edit-sala-prof').value = s.prof || '';
+  document.getElementById('modal-sala').classList.remove('hidden');
+  setTimeout(function(){ document.getElementById('edit-sala-nome').focus(); }, 100);
+}
+function confirmarEditSala(){
+  var id = document.getElementById('edit-sala-id').value;
+  var nome = document.getElementById('edit-sala-nome').value.trim();
+  var prof = document.getElementById('edit-sala-prof').value.trim();
+  if(!nome){ toast('Informe o nome da sala', 'error'); return; }
+  var s = state.salas.find(function(s){ return s.id === id; });
+  if(s){ s.nome = nome; s.prof = prof; }
+  save(); fecharModais(); renderSalas(); populateTrimSelects();
+  toast('Sala atualizada!', 'success');
+}
+function abrirModalConfirm(msg, fn){
+  document.getElementById('modal-confirm-msg').textContent = msg;
+  document.getElementById('modal-confirm-btn').onclick = function(){ fecharModais(); fn(); };
+  document.getElementById('modal-confirm').classList.remove('hidden');
+}
+function renderSalas(){
+  var el = document.getElementById('lista-salas');
+  if(!state.salas.length){
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🏫</div><p>Nenhuma sala cadastrada</p></div>';
+    return;
+  }
+  el.innerHTML = state.salas.map(function(s){
+    var count = state.alunos.filter(function(a){ return a.salaId === s.id; }).length + (s.prof ? 1 : 0);
+    return '<div class="sala-item">' +
+      '<div>' +
+        '<div class="sala-nome">'+s.nome+'</div>' +
+        '<div class="sala-prof">👤 '+(s.prof||'Sem professor')+' &nbsp;|&nbsp; '+count+' membro(s)</div>' +
+      '</div>' +
+      '<div class="sala-btns">' +
+        '<button class="btn btn-warning btn-sm" onclick="abrirModalEditSala(\''+s.id+'\')">✏️ Editar</button>' +
+        '<button class="btn btn-danger btn-sm" onclick="removeSala(\''+s.id+'\')">🗑️ Remover</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ===== ALUNOS =====
+function addAluno(){
+  var trimId = document.getElementById('aluno-trim').value;
+  var nome = document.getElementById('aluno-nome').value.trim();
+  var salaId = document.getElementById('aluno-sala').value;
+  if(!trimId){ toast('Selecione um trimestre', 'error'); return; }
+  if(!nome){ toast('Informe o nome do aluno', 'error'); return; }
+  if(!salaId){ toast('Selecione a sala', 'error'); return; }
+  state.alunos.push({id:uid(), nome:nome, salaId:salaId, trimId:trimId});
+  save();
+  document.getElementById('aluno-nome').value = '';
+  renderAlunos();
+  toast('Aluno matriculado!', 'success');
+}
+function removeAluno(id){
+  var a = state.alunos.find(function(a){ return a.id === id; });
+  abrirModalConfirm('Remover o aluno "'+a.nome+'" da matrícula?', function(){
+    state.alunos = state.alunos.filter(function(a){ return a.id !== id; });
+    save(); renderAlunos();
+    toast('Aluno removido.', 'success');
+  });
+}
+function renderAlunos(){
+  var trimId = document.getElementById('aluno-trim').value;
+  var salaEl = document.getElementById('aluno-sala');
+  salaEl.innerHTML = state.salas.length === 0
+    ? '<option value="">— Nenhuma sala —</option>'
+    : state.salas.map(function(s){ return '<option value="'+s.id+'">'+s.nome+'</option>'; }).join('');
+  var el = document.getElementById('lista-alunos');
+  if(!trimId){ el.innerHTML = '<div class="empty"><p>Selecione ou crie um trimestre</p></div>'; return; }
+  var alunos = state.alunos.filter(function(a){ return a.trimId === trimId; });
+  var bySala = {};
+  state.salas.forEach(function(s){ bySala[s.id] = []; });
+  alunos.forEach(function(a){ if(bySala[a.salaId]) bySala[a.salaId].push(a); });
+  var html = '';
+  state.salas.forEach(function(s){
+    var lista = bySala[s.id] || [];
+    var total = lista.length + (s.prof ? 1 : 0);
+    if(!total) return;
+    html += '<div class="card"><h3>🏫 '+s.nome+' <span class="badge badge-sky" style="margin-left:8px">'+total+' membro(s)</span></h3>';
+    if(s.prof){
+      html += '<div class="aluno-item" style="border:1.5px dashed var(--blue);">' +
+        '<div class="aluno-nome">🎓 '+s.prof+' <span class="prof-tag">Professor(a)</span></div></div>';
+    }
+    lista.forEach(function(a){
+      html += '<div class="aluno-item">' +
+        '<div class="aluno-nome">👤 '+a.nome+'</div>' +
+        '<button class="btn btn-danger btn-sm" onclick="removeAluno(\''+a.id+'\')">🗑️ Remover</button></div>';
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html || '<div class="empty"><div class="empty-icon">👥</div><p>Nenhum aluno matriculado neste trimestre</p></div>';
+}
+
+// ===== REGISTRAR AULA =====
+function renderLicoes(){
+  var trimId = document.getElementById('aula-trim').value;
+  var grid = document.getElementById('licao-grid');
+  grid.innerHTML = '';
+  if(!trimId){
+    document.getElementById('aula-form-area').innerHTML = '<div class="empty"><p>Selecione ou crie um trimestre</p></div>';
+    return;
+  }
+  for(var i = 1; i <= 13; i++){
+    (function(num){
+      var temRegistro = state.registros.some(function(r){ return r.trimId === trimId && r.licao === num; });
+      var btn = document.createElement('button');
+      btn.className = 'licao-btn' + (temRegistro ? ' registrada' : '') + (licaoAtiva === num ? ' active' : '');
+      btn.textContent = 'L' + num;
+      btn.onclick = function(){ licaoAtiva = num; carregarFreqTemp(); renderLicoes(); renderAulaForm(); };
+      grid.appendChild(btn);
+    })(i);
+  }
+  if(!licaoAtiva)
+    document.getElementById('aula-form-area').innerHTML = '<div class="empty"><div class="empty-icon">📖</div><p>Selecione uma lição acima</p></div>';
+}
+
+function carregarFreqTemp(){
+  var trimId = document.getElementById('aula-trim').value;
+  freqTemp = {};
+  state.salas.forEach(function(s){
+    freqTemp[s.id] = { alunos:{}, prof:null, visitantes:0, biblias:0 };
+    state.alunos.filter(function(a){ return a.salaId === s.id && a.trimId === trimId; })
+      .forEach(function(a){ freqTemp[s.id].alunos[a.id] = null; });
+  });
+  state.registros.filter(function(r){ return r.trimId === trimId && r.licao === licaoAtiva; })
+    .forEach(function(r){
+      if(!freqTemp[r.salaId]) return;
+      freqTemp[r.salaId].visitantes = r.visitantes || 0;
+      freqTemp[r.salaId].biblias    = r.biblias || 0;
+      freqTemp[r.salaId].prof       = r.profStatus || null;
+      if(r.frequencia){
+        Object.keys(r.frequencia).forEach(function(aid){ freqTemp[r.salaId].alunos[aid] = r.frequencia[aid]; });
+      }
+      if(r.data) document.getElementById('aula-data').value = r.data;
+    });
+}
+
+function toggleFreq(salaId, alunoId, status){
+  if(freqTemp[salaId].alunos[alunoId] === status) freqTemp[salaId].alunos[alunoId] = null;
+  else freqTemp[salaId].alunos[alunoId] = status;
+  var row = document.getElementById('row-'+salaId+'-'+alunoId);
+  if(row){
+    row.className = 'freq-aluno-row ' + (freqTemp[salaId].alunos[alunoId] || '');
+    row.querySelectorAll('.freq-btn').forEach(function(b){ b.classList.remove('active'); });
+    var cur = freqTemp[salaId].alunos[alunoId];
+    if(cur) row.querySelector('.freq-btn-'+cur[0]).classList.add('active');
+  }
+  atualizarTotaisSala(salaId);
+}
+
+function toggleProf(salaId, status){
+  if(freqTemp[salaId].prof === status) freqTemp[salaId].prof = null;
+  else freqTemp[salaId].prof = status;
+  var row = document.getElementById('row-prof-'+salaId);
+  if(row){
+    row.className = 'freq-aluno-row professor-row ' + (freqTemp[salaId].prof || '');
+    row.querySelectorAll('.freq-btn').forEach(function(b){ b.classList.remove('active'); });
+    var cur = freqTemp[salaId].prof;
+    if(cur) row.querySelector('.freq-btn-'+cur[0]).classList.add('active');
+  }
+  atualizarTotaisSala(salaId);
+}
+
+function changeCounter(salaId, campo, delta){
+  freqTemp[salaId][campo] = Math.max(0, (freqTemp[salaId][campo] || 0) + delta);
+  document.getElementById(campo+'-'+salaId).textContent = freqTemp[salaId][campo];
+  atualizarTotaisSala(salaId);
+}
+
+function atualizarTotaisSala(salaId){
+  var f = freqTemp[salaId];
+  var profPresente = (f.prof === 'presente') ? 1 : 0;
+  var presentes = Object.keys(f.alunos).filter(function(id){ return f.alunos[id] === 'presente'; }).length + profPresente;
+  var ausentes  = Object.keys(f.alunos).filter(function(id){ return f.alunos[id] === 'ausente';  }).length + (f.prof === 'ausente' ? 1 : 0);
+  var assistencia = presentes + (f.visitantes || 0);
+  var sp = document.getElementById('sum-p-'+salaId);
+  var sa = document.getElementById('sum-a-'+salaId);
+  var st = document.getElementById('sum-t-'+salaId);
+  if(sp) sp.textContent = presentes;
+  if(sa) sa.textContent = ausentes;
+  if(st) st.textContent = assistencia;
+}
+
+function renderAulaForm(){
+  var trimId = document.getElementById('aula-trim').value;
+  if(!trimId || !licaoAtiva) return;
+  if(!state.salas.length){
+    document.getElementById('aula-form-area').innerHTML = '<div class="empty"><p>Cadastre salas primeiro na aba Salas</p></div>';
+    return;
+  }
+  var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">' +
+    '<div class="section-title" style="margin:0">Lição '+licaoAtiva+'</div>' +
+    '<button class="btn btn-primary" onclick="salvarAula()">💾 Salvar Frequência</button></div>';
+
+  state.salas.forEach(function(s){
+    var alunosSala = state.alunos.filter(function(a){ return a.salaId === s.id && a.trimId === trimId; });
+    var f = freqTemp[s.id] || {alunos:{}, prof:null, visitantes:0, biblias:0};
+    var profPresente = (f.prof === 'presente') ? 1 : 0;
+    var presentes = Object.keys(f.alunos).filter(function(id){ return f.alunos[id] === 'presente'; }).length + profPresente;
+    var ausentes  = Object.keys(f.alunos).filter(function(id){ return f.alunos[id] === 'ausente';  }).length + (f.prof === 'ausente' ? 1 : 0);
+    var visitantes = f.visitantes || 0;
+    var biblias = f.biblias || 0;
+    var totalMat = alunosSala.length + (s.prof ? 1 : 0);
+
+    html += '<div class="aula-sala-card">' +
+      '<div style="margin-bottom:14px;">' +
+        '<div class="aula-sala-nome">🏫 '+s.nome+'</div>' +
+        '<div style="font-size:12px;color:#6a9ab8;margin-top:2px">'+totalMat+' membro(s) matriculado(s)</div>' +
+      '</div>' +
+      '<div class="freq-aluno-list">';
+
+    if(s.prof){
+      var ps = f.prof || null;
+      html += '<div class="freq-aluno-row professor-row '+(ps||'')+'" id="row-prof-'+s.id+'">' +
+        '<div class="freq-aluno-nome">🎓 '+s.prof+' <span class="prof-tag">Professor(a)</span></div>' +
+        '<div class="freq-toggle">' +
+          '<button class="freq-btn freq-btn-p '+(ps==='presente'?'active':'')+'" onclick="toggleProf(\''+s.id+'\',\'presente\')">✅ Presente</button>' +
+          '<button class="freq-btn freq-btn-a '+(ps==='ausente'?'active':'')+'" onclick="toggleProf(\''+s.id+'\',\'ausente\')">❌ Ausente</button>' +
+        '</div></div>';
+      if(alunosSala.length) html += '<hr class="divider">';
+    }
+
+    if(!alunosSala.length && !s.prof){
+      html += '<div style="text-align:center;padding:16px;color:#a0c0d8;font-size:13px;">Nenhum membro nesta sala neste trimestre</div>';
+    } else {
+      alunosSala.forEach(function(a){
+        var status = f.alunos[a.id] || null;
+        html += '<div class="freq-aluno-row '+(status||'')+'" id="row-'+s.id+'-'+a.id+'">' +
+          '<div class="freq-aluno-nome">👤 '+a.nome+'</div>' +
+          '<div class="freq-toggle">' +
+            '<button class="freq-btn freq-btn-p '+(status==='presente'?'active':'')+'" onclick="toggleFreq(\''+s.id+'\',\''+a.id+'\',\'presente\')">✅ Presente</button>' +
+            '<button class="freq-btn freq-btn-a '+(status==='ausente'?'active':'')+'" onclick="toggleFreq(\''+s.id+'\',\''+a.id+'\',\'ausente\')">❌ Ausente</button>' +
+          '</div></div>';
+      });
+    }
+
+    html += '</div>' +
+      '<div class="freq-summary">' +
+        '<div class="counter-box">' +
+          '<div class="counter-label" style="color:#1a5276">👋 Visitantes</div>' +
+          '<div class="counter-ctrl">' +
+            '<button class="counter-btn counter-btn-minus" onclick="changeCounter(\''+s.id+'\',\'visitantes\',-1)">−</button>' +
+            '<div class="counter-val" id="visitantes-'+s.id+'">'+visitantes+'</div>' +
+            '<button class="counter-btn counter-btn-plus" onclick="changeCounter(\''+s.id+'\',\'visitantes\',1)">+</button>' +
+          '</div></div>' +
+        '<div class="counter-box">' +
+          '<div class="counter-label" style="color:#5b2c8d">📖 Bíblias</div>' +
+          '<div class="counter-ctrl">' +
+            '<button class="counter-btn counter-btn-minus" onclick="changeCounter(\''+s.id+'\',\'biblias\',-1)">−</button>' +
+            '<div class="counter-val" id="biblias-'+s.id+'">'+biblias+'</div>' +
+            '<button class="counter-btn counter-btn-plus" onclick="changeCounter(\''+s.id+'\',\'biblias\',1)">+</button>' +
+          '</div></div>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+          '<div class="stat-display" style="background:#d5f5e3;border-color:#2ECC71;">' +
+            '<div class="counter-label" style="color:#1a7a47">✅ Presentes</div>' +
+            '<div class="stat-display-val" id="sum-p-'+s.id+'" style="color:#1a7a47">'+presentes+'</div></div>' +
+          '<div class="stat-display" style="background:#fde8e6;border-color:#E74C3C;">' +
+            '<div class="counter-label" style="color:#a93226">❌ Ausentes</div>' +
+            '<div class="stat-display-val" id="sum-a-'+s.id+'" style="color:#a93226">'+ausentes+'</div></div>' +
+          '<div class="stat-display" style="background:var(--blue-light);border-color:var(--blue);">' +
+            '<div class="counter-label" style="color:var(--dark3)">📊 Assistência</div>' +
+            '<div class="stat-display-val" id="sum-t-'+s.id+'" style="color:var(--dark3)">'+(presentes+visitantes)+'</div>' +
+            '<div class="counter-total">pres. + visit.</div></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  document.getElementById('aula-form-area').innerHTML = html;
+}
+
+function salvarAula(){
+  var trimId = document.getElementById('aula-trim').value;
+  var data = document.getElementById('aula-data').value;
+  if(!trimId || !licaoAtiva) return;
+  state.salas.forEach(function(s){
+    var f = freqTemp[s.id] || {alunos:{}, prof:null, visitantes:0, biblias:0};
+    var profPresente = (f.prof === 'presente') ? 1 : 0;
+    var presentes = Object.keys(f.alunos).filter(function(id){ return f.alunos[id] === 'presente'; }).length + profPresente;
+    var ausentes  = Object.keys(f.alunos).filter(function(id){ return f.alunos[id] === 'ausente';  }).length + (f.prof === 'ausente' ? 1 : 0);
+    state.registros = state.registros.filter(function(r){ return !(r.trimId === trimId && r.licao === licaoAtiva && r.salaId === s.id); });
+    var freq = {};
+    Object.keys(f.alunos).forEach(function(k){ freq[k] = f.alunos[k]; });
+    state.registros.push({
+      id:uid(), trimId:trimId, licao:licaoAtiva, salaId:s.id,
+      presentes:presentes, ausentes:ausentes,
+      visitantes:f.visitantes||0, biblias:f.biblias||0,
+      profStatus:f.prof||null, data:data, frequencia:freq
+    });
+  });
+  save(); renderLicoes();
+  toast('Lição '+licaoAtiva+' salva com sucesso!', 'success');
+}
+
+// ===== RELATÓRIO =====
+function renderRelatorio(){
+  var trimId = document.getElementById('hist-trim').value;
+  var salaId = document.getElementById('hist-sala').value;
+  var licaoFiltro = document.getElementById('hist-licao').value;
+  var el = document.getElementById('hist-content');
+  if(!trimId){ el.innerHTML = '<div class="empty"><p>Selecione um trimestre</p></div>'; return; }
+
+  var regs = state.registros.filter(function(r){ return r.trimId === trimId; });
+  if(salaId) regs = regs.filter(function(r){ return r.salaId === salaId; });
+  if(licaoFiltro) regs = regs.filter(function(r){ return r.licao === parseInt(licaoFiltro); });
+
+  if(!regs.length){ el.innerHTML = '<div class="empty"><div class="empty-icon">📊</div><p>Nenhum registro encontrado com os filtros selecionados</p></div>'; return; }
+
+  var byLicao = {};
+  regs.forEach(function(r){ if(!byLicao[r.licao]) byLicao[r.licao]=[]; byLicao[r.licao].push(r); });
+
+  var totP=0, totA=0, totV=0, totAss=0, totB=0;
+  var tabelaRows = '';
+  Object.keys(byLicao).sort(function(a,b){ return a-b; }).forEach(function(lic){
+    byLicao[lic].forEach(function(r){
+      var sala = state.salas.find(function(s){ return s.id === r.salaId; });
+      var mat = state.alunos.filter(function(a){ return a.salaId === r.salaId && a.trimId === trimId; }).length + (sala && sala.prof ? 1 : 0);
+      var ass = r.presentes + (r.visitantes||0);
+      var bib = r.biblias||0;
+      totP += r.presentes; totA += r.ausentes; totV += r.visitantes||0; totAss += ass; totB += bib;
+      tabelaRows += '<tr>' +
+        '<td><strong>L'+r.licao+'</strong></td>' +
+        '<td>'+(sala ? sala.nome : '—')+'</td>' +
+        '<td>'+mat+'</td>' +
+        '<td><span class="badge badge-green">'+r.presentes+'</span></td>' +
+        '<td><span class="badge badge-red">'+r.ausentes+'</span></td>' +
+        '<td><span class="badge badge-blue">'+(r.visitantes||0)+'</span></td>' +
+        '<td><span class="badge badge-sky">'+ass+'</span></td>' +
+        '<td><span class="badge badge-purple">'+bib+'</span></td>' +
+        '<td>'+(r.data||'—')+'</td>' +
+      '</tr>';
+    });
+  });
+
+  var totalLicoes = Object.keys(byLicao).length;
+  var alunosFiltro = state.alunos.filter(function(a){ return a.trimId === trimId && (!salaId || a.salaId === salaId); });
+  var rankData = alunosFiltro.map(function(a){
+    var sala = state.salas.find(function(s){ return s.id === a.salaId; });
+    var presencas = 0;
+    regs.forEach(function(r){ if(r.frequencia && r.frequencia[a.id] === 'presente') presencas++; });
+    var pct = totalLicoes > 0 ? Math.round(presencas/totalLicoes*100) : 0;
+    return {nome:a.nome, sala:sala?sala.nome:'—', isProf:false, presencas:presencas, pct:pct};
+  });
+  state.salas.filter(function(s){ return s.prof && (!salaId || s.id === salaId); }).forEach(function(s){
+    var presencas = 0;
+    regs.filter(function(r){ return r.salaId === s.id; }).forEach(function(r){ if(r.profStatus === 'presente') presencas++; });
+    var pct = totalLicoes > 0 ? Math.round(presencas/totalLicoes*100) : 0;
+    rankData.push({nome:s.prof, sala:s.nome, isProf:true, presencas:presencas, pct:pct});
+  });
+  rankData.sort(function(a,b){ return b.presencas - a.presencas; });
+
+  var maxP = rankData.length > 0 ? rankData[0].presencas : 1;
+  var rankRows = rankData.map(function(r, i){
+    var posClass = i===0?'gold':i===1?'silver':i===2?'bronze':'';
+    var posLabel = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º';
+    var barW = maxP > 0 ? Math.round(r.presencas/maxP*100) : 0;
+    return '<div class="rank-row">' +
+      '<div class="rank-pos '+posClass+'">'+posLabel+'</div>' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div class="rank-nome">'+(r.isProf?'🎓':'👤')+' '+r.nome+(r.isProf?' <span class="prof-tag">Professor(a)</span>':'')+'</div>' +
+        '<div class="rank-sala">'+r.sala+'</div>' +
+        '<div class="rank-bar-wrap" style="margin-top:6px"><div class="rank-bar" style="width:'+barW+'%"></div></div>' +
+      '</div>' +
+      '<div style="text-align:right;">' +
+        '<div style="font-size:14px;font-weight:900;color:var(--dark3)">'+r.presencas+' <span style="font-size:11px;color:#6a9ab8;">pres.</span></div>' +
+        '<div style="font-size:12px;color:#6a9ab8;">'+r.pct+'% freq.</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  el.innerHTML =
+    '<div class="card">' +
+      '<h3>📋 Frequência por Lição</h3>' +
+      '<div class="table-wrap"><table>' +
+        '<thead><tr><th>Lição</th><th>Sala</th><th>Membros</th><th>Presentes</th><th>Ausentes</th><th>Visitantes</th><th>Assistência</th><th>Bíblias</th><th>Data</th></tr></thead>' +
+        '<tbody>'+tabelaRows+'</tbody>' +
+        '<tfoot><tr style="background:var(--dark3);color:white;font-weight:700;">' +
+          '<td colspan="3" style="padding:10px 12px;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;">TOTAL GERAL</td>' +
+          '<td style="padding:10px 12px">'+totP+'</td>' +
+          '<td style="padding:10px 12px">'+totA+'</td>' +
+          '<td style="padding:10px 12px">'+totV+'</td>' +
+          '<td style="padding:10px 12px">'+totAss+'</td>' +
+          '<td style="padding:10px 12px">'+totB+'</td>' +
+          '<td style="padding:10px 12px">—</td>' +
+        '</tr></tfoot>' +
+      '</table></div>' +
+    '</div>' +
+    '<div class="card" style="margin-top:4px">' +
+      '<h3>🏆 Ranking de Presença</h3>' +
+      (rankRows || '<div class="empty"><p>Nenhum dado de presença registrado</p></div>') +
+    '</div>';
+}
+
+// ===== INIT =====
+load();
+populateTrimSelects();
+renderSalas();
+document.getElementById('aula-data').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
